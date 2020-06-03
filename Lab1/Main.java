@@ -1,86 +1,70 @@
-package Lab;
+package sample;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class Main extends Application
-{
-    public static void main(String[] args) {Application.launch(args);}
-    @Override  public void start(Stage primaryStage)
-    {
-        primaryStage.setResizable(false);
-        BorderPane root = new BorderPane();
-        Scene scene = new Scene(root, 400, 150);
+public class Main extends Application {
 
-        GridPane gridpane = new GridPane();
-        gridpane.setPadding(new Insets(5));
-        gridpane.setHgap(5);
-        gridpane.setVgap(5);
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setResizable(true);
+        primaryStage.setTitle("Square&Perimeter Calculator");
+        GridPane root = new GridPane();
+        Scene scene = new Scene(root, 640, 480);
 
-        for (int i = 0; i < 3; i++)
-        {
-            ColumnConstraints column = new ColumnConstraints();
-            column.setPercentWidth(100 / 3.0);
-            gridpane.getColumnConstraints().add(column);
+        root.setGridLinesVisible(false);
+        root.setPadding(new Insets(5, 5, 5, 5));
+        for (int i = 0; i < 4; i++) {
+            root.getColumnConstraints().add(new ColumnConstraints());
         }
 
-        Label label = new Label("Сторона 1");
-        gridpane.add(label, 0, 0);
-        TextField dividendTextField = new TextField();
-        gridpane.add(dividendTextField, 1, 0);
+        root.getColumnConstraints().get(0).setPercentWidth(20);
+        root.getColumnConstraints().get(1).setPercentWidth(30);
+        root.getColumnConstraints().get(2).setPercentWidth(30);
+        root.getColumnConstraints().get(3).setPercentWidth(20);
 
-        label = new Label("Сторона 2");
-        gridpane.add(label, 0, 1);
-        TextField dividerTextField = new TextField();
-        gridpane.add(dividerTextField, 1, 1);
+        root.add(new Label("Side 1:"), 0, 0);
+        root.add(new Label("Side 2:"), 0, 1);
+        root.add(new Label("Side 3:"), 0, 2);
 
-        label = new Label("Сторона 3");
-        gridpane.add(label, 0, 2);
-        TextField dividerTextField2 = new TextField();
-        gridpane.add(dividerTextField2, 1, 2 );
+        TextField firstSideTextField = new TextField();
+        root.add(firstSideTextField, 1, 0,3,1);
 
-        Button calculateButton1 = new Button("Площадь");
-        gridpane.add(calculateButton1, 0, 4);
+        TextField secondSideTextField = new TextField();
+        root.add(secondSideTextField, 1, 1,3,1);
 
-        Button calculateButton2=new Button("Периметр");
-        gridpane.add(calculateButton2,1,4);
+        TextField thirdSideTextField = new TextField();
+        root.add(thirdSideTextField, 1, 2,3,1);
 
-        Label quotientLabel = new Label(" ");
-        gridpane.add(quotientLabel, 0, 4);
-        Label remainderLabel = new Label(" ");
-        gridpane.add(remainderLabel, 1, 4);
+        Button squareButton = new Button("Square");
+        squareButton.setMaxWidth(Double.MAX_VALUE);
+        squareButton.setMaxHeight(Double.MAX_VALUE);
+        GridPane.setMargin(squareButton, new Insets(5));
+        root.add(squareButton, 0, 3);
 
-        calculateButton1.setOnAction(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent e)
-            {
-                Integer dividend = Integer.parseInt(dividendTextField.getText());
-                Integer divider = Integer.parseInt(dividerTextField.getText());
-                Integer div1 = Integer.parseInt(dividerTextField2.getText());
-                quotientLabel.setText("                      " + (dividend + dividend));
-            }
-        });
-        calculateButton2.setOnAction(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent e)
-            {
-                Integer dividend = Integer.parseInt(dividendTextField.getText());
-                Integer divider = Integer.parseInt(dividerTextField.getText());
-                Integer div1 = Integer.parseInt(dividerTextField2.getText());
-                remainderLabel.setText("                       " + (dividend + divider + div1));
-            }
-        });
-        root.setCenter(gridpane);
+        Label squareLabel = new Label("");
+        root.add(squareLabel, 1, 3);
+
+
+        Button perimeterButton = new Button("Perimeter");
+        perimeterButton.setMaxWidth(Double.MAX_VALUE);
+        perimeterButton.setMaxHeight(Double.MAX_VALUE);
+        GridPane.setMargin(perimeterButton, new Insets(5));
+        root.add(perimeterButton, 2, 3);
+
+        Label perimeterLabel = new Label("");
+        root.add(perimeterLabel, 3, 3);
+
+        SquarePerimeter.squareButtonHandler(squareButton,squareLabel,firstSideTextField,secondSideTextField,thirdSideTextField);
+        SquarePerimeter.perimeterButtonHandler(perimeterButton,perimeterLabel,firstSideTextField,secondSideTextField,thirdSideTextField);
+
         primaryStage.setScene(scene);
         primaryStage.show();
     }
